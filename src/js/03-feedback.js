@@ -1,17 +1,34 @@
-const form = document.querySelector('#feedback-form');
-// const output = document.querySelector('#output');
-const LOCALSTORAGE_KEY = 'goit-example-message';
+import throttle from 'lodash.throttle';
 
-updateOutput();
-form.addEventListener('submit', saveMessage);
+const form = document.querySelector('.feedback-form');
 
-function saveMessage(evt) {
-  evt.preventDefault();
-  localStorage.setItem(LOCALSTORAGE_KEY, form.elements.message.value);
-  updateOutput();
-  form.reset();
+form.addEventListener('submit', submitForm);
+
+function submitForm(e) {
+  e.preventDefault();
+  this.reset();
+  localStorage.removeItem('feedback-form-state');
 }
 
-function updateOutput() {
-  output.textContent = localStorage.getItem(LOCALSTORAGE_KEY) || '';
+form.addEventListener('input', throttle(setLocalRecords, 500));
+
+function setLocalRecords() {
+  let email = document.querySelector('#email').value;
+  let message = document.querySelector('#message').value;
+
+  const formVal = {
+    email: email,
+    message: message,
+  };
+
+  localStorage.setItem('feedback-form-state', JSON.stringify(formVal));
 }
+
+function getLocalRecords() {
+  let localObject = JSON.parse(localStorage.getItem('feedback-form-state'));
+
+  email.value = localObject.email;
+  message.value = localObject.message;
+}
+
+getLocalRecords();
