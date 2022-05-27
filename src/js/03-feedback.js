@@ -26,6 +26,9 @@ function setLocalRecords() {
 
 function getLocalRecords() {
   let localObject = JSON.parse(localStorage.getItem('feedback-form-state'));
+  if (localObject === null) {
+    return;
+  }
 
   email.value = localObject.email;
   message.value = localObject.message;
