@@ -2,14 +2,6 @@ import throttle from 'lodash.throttle';
 
 const form = document.querySelector('.feedback-form');
 
-form.addEventListener('submit', submitForm);
-
-function submitForm(e) {
-  e.preventDefault();
-  this.reset();
-  localStorage.removeItem('feedback-form-state');
-}
-
 form.addEventListener('input', throttle(setLocalRecords, 500));
 
 function setLocalRecords() {
@@ -29,9 +21,17 @@ function getLocalRecords() {
   if (localObject === null) {
     return;
   }
-
   email.value = localObject.email;
   message.value = localObject.message;
 }
 
 getLocalRecords();
+
+form.addEventListener('submit', submitForm);
+
+function submitForm(e) {
+  e.preventDefault();
+  this.reset();
+  console.log(localStorage.getItem('feedback-form-state'));
+  localStorage.removeItem('feedback-form-state');
+}
