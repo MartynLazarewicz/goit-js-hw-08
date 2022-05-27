@@ -4,13 +4,13 @@ const form = document.querySelector('.feedback-form');
 
 form.addEventListener('input', throttle(setLocalRecords, 500));
 
-function setLocalRecords() {
-  let email = document.querySelector('#email').value;
-  let message = document.querySelector('#message').value;
+const email = document.querySelector('[name="email"]');
+const message = document.querySelector('[name="message"]');
 
+function setLocalRecords() {
   const formVal = {
-    email: email,
-    message: message,
+    email: email.value,
+    message: message.value,
   };
 
   localStorage.setItem('feedback-form-state', JSON.stringify(formVal));
